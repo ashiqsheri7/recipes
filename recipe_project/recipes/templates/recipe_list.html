@@ -1,0 +1,27 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <title>Recipe List</title>
+</head>
+<body>
+    <h1>Recipe List</h1>
+    <a href="{% url 'recipe_create' %}">Add New Recipe</a>
+    <ul>
+        {% for recipe in recipes %}
+            <li>
+                <h2>{{ recipe.name }}</h2>
+                <p>{{ recipe.description }}</p>
+                <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" style="width: 100px;">
+                <a href="{% url 'recipe_update' recipe.pk %}">Edit</a>
+                <form action="{% url 'recipe_delete' recipe.pk %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
